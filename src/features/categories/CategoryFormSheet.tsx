@@ -3,8 +3,20 @@ import { Sheet } from '../../components/ui/Sheet'
 import { Button } from '../../components/ui/Button'
 import type { Category, CategoryGroup, TransactionType } from '../../types'
 
-const ICON_OPTIONS = ['🏷️', '🍚', '🏠', '🚌', '📶', '📚', '💊', '🛍️', '☕', '🎮', '💼', '🎁']
-const COLOR_OPTIONS = ['#34d399', '#f5a524', '#38bdf8', '#fbbf24', '#a78bfa', '#f87171', '#c084fc', '#fb7185']
+const ICON_GROUPS: { label: string; icons: string[] }[] = [
+  { label: 'Umum', icons: ['🏷️', '❔', '✨', '➕', '📌', '⭐'] },
+  { label: 'Makan & Minum', icons: ['🍚', '🍜', '🍔', '🍕', '🍗', '🍱', '☕', '🧋', '🍰', '🍺', '🥗', '🍳'] },
+  { label: 'Belanja', icons: ['🛍️', '👕', '👟', '👜', '💄', '🛒', '🎁', '📦'] },
+  { label: 'Transportasi', icons: ['🚌', '🚗', '🏍️', '⛽', '🚕', '🚆', '✈️', '🅿️', '🚲'] },
+  { label: 'Tagihan & Rumah', icons: ['🏠', '💡', '📶', '📱', '🔧', '🧹', '🧺', '🪑', '🗑️'] },
+  { label: 'Kesehatan', icons: ['💊', '🏥', '🩺', '🦷', '🧘', '🏃', '💉'] },
+  { label: 'Pendidikan', icons: ['📚', '🎓', '✏️', '🏫', '💻'] },
+  { label: 'Hiburan', icons: ['🎮', '🎬', '🎵', '🎤', '⚽', '🎨', '🎉', '📺'] },
+  { label: 'Keuangan & Kerja', icons: ['💼', '💰', '💸', '🏦', '📈', '🧾', '💳'] },
+  { label: 'Keluarga & Hewan', icons: ['👨‍👩‍👧', '🐶', '🐱', '👶', '❤️'] },
+  { label: 'Lainnya', icons: ['🙏', '🎂', '🧳', '🛠️', '📮', '🔖'] },
+]
+const COLOR_OPTIONS = ['#3b82f6', '#34d399', '#fb7185', '#38bdf8', '#fbbf24', '#a78bfa', '#f472b6', '#c084fc', '#f97316', '#94a3b8']
 
 interface CategoryFormSheetProps {
   open: boolean
@@ -17,7 +29,7 @@ export function CategoryFormSheet({ open, onClose, onSubmit, initial }: Category
   const [name, setName] = useState(initial?.name ?? '')
   const [type, setType] = useState<TransactionType>(initial?.type ?? 'expense')
   const [group, setGroup] = useState<CategoryGroup>(initial?.group ?? 'needs')
-  const [icon, setIcon] = useState(initial?.icon ?? ICON_OPTIONS[0])
+  const [icon, setIcon] = useState(initial?.icon ?? ICON_GROUPS[0].icons[0])
   const [color, setColor] = useState(initial?.color ?? COLOR_OPTIONS[0])
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -96,19 +108,29 @@ export function CategoryFormSheet({ open, onClose, onSubmit, initial }: Category
         )}
 
         <div>
-          <label className="text-sm text-text-muted mb-2 block">Ikon</label>
-          <div className="flex gap-2 flex-wrap">
-            {ICON_OPTIONS.map((opt) => (
-              <button
-                type="button"
-                key={opt}
-                onClick={() => setIcon(opt)}
-                className={`w-10 h-10 rounded-xl text-base flex items-center justify-center border ${
-                  icon === opt ? 'border-brand bg-brand-soft' : 'border-border bg-surface-raised'
-                }`}
-              >
-                {opt}
-              </button>
+          <label className="text-sm text-text-muted mb-2 flex items-center justify-between">
+            <span>Ikon</span>
+            <span className="text-lg">{icon}</span>
+          </label>
+          <div className="max-h-56 overflow-y-auto border border-border rounded-xl p-3 flex flex-col gap-3">
+            {ICON_GROUPS.map((group) => (
+              <div key={group.label}>
+                <p className="text-xs text-text-muted mb-1.5">{group.label}</p>
+                <div className="flex gap-2 flex-wrap">
+                  {group.icons.map((opt) => (
+                    <button
+                      type="button"
+                      key={opt}
+                      onClick={() => setIcon(opt)}
+                      className={`w-9 h-9 rounded-xl text-base flex items-center justify-center border shrink-0 ${
+                        icon === opt ? 'border-brand bg-brand-soft' : 'border-border bg-surface-raised'
+                      }`}
+                    >
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </div>

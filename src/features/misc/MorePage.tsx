@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom'
-import { Tag, LogOut, ChevronRight } from 'lucide-react'
+import { Tag, LogOut, ChevronRight, Moon, Sun } from 'lucide-react'
 import { useAuth } from '../auth/AuthContext'
+import { useTheme } from '../settings/ThemeContext'
 import { ExportButton } from './ExportButton'
 import { ImportButton } from './ImportButton'
 
 export function MorePage() {
   const { user, signOut } = useAuth()
+  const { theme, setTheme } = useTheme()
 
   return (
     <div className="px-5 pt-6">
@@ -18,6 +20,27 @@ export function MorePage() {
         <div>
           <p className="font-medium">{user?.displayName}</p>
           <p className="text-sm text-text-muted">{user?.email}</p>
+        </div>
+      </div>
+
+      <div className="mb-6">
+        <p className="text-sm text-text-muted mb-2">Tampilan</p>
+        <div className="flex bg-surface border border-border rounded-xl p-1">
+          {([
+            { value: 'dark' as const, label: 'Gelap', icon: Moon },
+            { value: 'light' as const, label: 'Terang', icon: Sun },
+          ]).map(({ value, label, icon: Icon }) => (
+            <button
+              key={value}
+              onClick={() => setTheme(value)}
+              className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                theme === value ? 'bg-brand text-bg font-semibold' : 'text-text-muted'
+              }`}
+            >
+              <Icon className="w-4 h-4" />
+              {label}
+            </button>
+          ))}
         </div>
       </div>
 

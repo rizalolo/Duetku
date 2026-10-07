@@ -4,10 +4,14 @@ export function formatRupiah(amount: number): string {
   return `${sign}Rp ${abs.toLocaleString('id-ID')}`
 }
 
-// Versi ringkas untuk tempat sempit: 1.05jt, 615rb, dst — mirip screenshot referensi
+// Versi ringkas untuk tempat sempit: 1,2M, 1.05jt, 615rb, dst — mirip screenshot referensi
 export function formatRupiahCompact(amount: number): string {
   const sign = amount < 0 ? '-' : ''
   const abs = Math.abs(amount)
+  if (abs >= 1_000_000_000) {
+    const val = abs / 1_000_000_000
+    return `${sign}Rp ${val.toLocaleString('id-ID', { maximumFractionDigits: 2 })}M`
+  }
   if (abs >= 1_000_000) {
     const val = abs / 1_000_000
     return `${sign}Rp ${val.toLocaleString('id-ID', { maximumFractionDigits: 2 })}jt`

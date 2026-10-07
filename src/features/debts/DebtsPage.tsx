@@ -5,7 +5,7 @@ import { DebtFormSheet } from './DebtFormSheet'
 import { PaymentSheet } from './PaymentSheet'
 import { Button } from '../../components/ui/Button'
 import { EmptyState } from '../../components/ui/EmptyState'
-import { formatDate, formatRupiah } from '../../lib/format'
+import { formatDate, formatRupiah, formatRupiahCompact } from '../../lib/format'
 import type { Debt } from '../../types'
 
 function dueInfo(d: Debt): { text: string; tone: 'muted' | 'warn' | 'over' } {
@@ -46,13 +46,17 @@ export function DebtsPage({ embedded = false }: { embedded?: boolean }) {
       )}
 
       <div className="grid grid-cols-2 gap-3 mb-6">
-        <div className="bg-surface border border-border rounded-2xl p-4">
+        <div className="bg-surface border border-border rounded-2xl p-4 min-w-0">
           <p className="text-text-muted text-xs mb-1">Sisa hutang</p>
-          <p className="text-lg font-semibold tabular-nums text-expense">{formatRupiah(totalDebt)}</p>
+          <p className="text-lg font-semibold nowrap-nums truncate text-expense" title={formatRupiah(totalDebt)}>
+            {formatRupiahCompact(totalDebt)}
+          </p>
         </div>
-        <div className="bg-surface border border-border rounded-2xl p-4">
+        <div className="bg-surface border border-border rounded-2xl p-4 min-w-0">
           <p className="text-text-muted text-xs mb-1">Sisa piutang</p>
-          <p className="text-lg font-semibold tabular-nums text-income">{formatRupiah(totalReceivable)}</p>
+          <p className="text-lg font-semibold nowrap-nums truncate text-income" title={formatRupiah(totalReceivable)}>
+            {formatRupiahCompact(totalReceivable)}
+          </p>
         </div>
       </div>
 
@@ -96,9 +100,9 @@ export function DebtsPage({ embedded = false }: { embedded?: boolean }) {
                     <button onClick={() => handleDelete(d.id)} className="p-2 text-text-muted"><Trash2 className="w-4 h-4" /></button>
                   </div>
                 </div>
-                <div className="flex items-baseline justify-between mb-2">
-                  <span className="text-lg font-semibold tabular-nums">{formatRupiah(d.paidAmount)}</span>
-                  <span className="text-sm text-text-muted tabular-nums">dari {formatRupiah(d.totalAmount)}</span>
+                <div className="flex items-baseline justify-between gap-2 mb-2">
+                  <span className="text-lg font-semibold nowrap-nums truncate">{formatRupiah(d.paidAmount)}</span>
+                  <span className="text-sm text-text-muted nowrap-nums truncate shrink-0">dari {formatRupiah(d.totalAmount)}</span>
                 </div>
                 <div className="h-2 rounded-full bg-surface-raised overflow-hidden mb-3">
                   <div className={`h-full rounded-full ${isDebtKind ? 'bg-expense' : 'bg-income'}`} style={{ width: `${pct}%` }} />

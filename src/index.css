@@ -1,21 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
+/*
+  Tailwind v4 menghasilkan utility class (bg-surface, text-brand, dst) yang membaca
+  langsung dari custom property di bawah ini. Jadi untuk ganti tema, kita cukup timpa
+  NILAI variabelnya lewat selector [data-theme], tanpa perlu ubah className di komponen manapun.
+*/
 @theme {
-  /* Base surfaces */
-  --color-bg: #14161c;
-  --color-surface: #1d2028;
-  --color-surface-raised: #242832;
-  --color-border: #2a2e38;
+  --color-bg: #080b12;
+  --color-surface: #111722;
+  --color-surface-raised: #171f2d;
+  --color-border: #202a3a;
 
-  /* Text */
-  --color-text: #f2f3f5;
-  --color-text-muted: #8b90a0;
-  --color-text-faint: #5b606f;
+  --color-text: #f1f5f9;
+  --color-text-muted: #94a3b8;
+  --color-text-faint: #475569;
 
-  /* Brand / semantic */
-  --color-brand: #f5a524;
-  --color-brand-soft: #f5a52422;
+  --color-brand: #3b82f6;
+  --color-brand-soft: #172a4a;
   --color-income: #34d399;
   --color-income-soft: #34d39922;
   --color-expense: #fb7185;
@@ -27,12 +29,37 @@
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
 
+/* Mode terang — diaktifkan lewat ThemeContext yang set data-theme="light" di <html> */
+:root[data-theme='light'] {
+  --color-bg: #f1f5f9;
+  --color-surface: #ffffff;
+  --color-surface-raised: #f8fafc;
+  --color-border: #e2e8f0;
+
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+  --color-text-faint: #94a3b8;
+
+  --color-brand: #3b82f6;
+  --color-brand-soft: #dbeafe;
+  --color-income: #059669;
+  --color-income-soft: #05966922;
+  --color-expense: #e11d48;
+  --color-expense-soft: #e11d4822;
+  --color-needs: #0284c7;
+  --color-wants: #9333ea;
+}
+
 @layer base {
   html {
     color-scheme: dark;
   }
+  html[data-theme='light'] {
+    color-scheme: light;
+  }
   body {
     @apply bg-bg text-text font-sans antialiased;
+    transition: background-color 0.2s ease;
   }
   h1, h2, h3, h4 {
     font-family: var(--font-display);
@@ -56,5 +83,10 @@
   }
   .safe-bottom {
     padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  /* Angka besar (Rupiah) wajib tetap satu baris — jangan sampai turun/wrap di layar sempit */
+  .nowrap-nums {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
   }
 }

@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './features/auth/AuthContext'
+import { ThemeProvider } from './features/settings/ThemeContext'
 import { LoginPage } from './features/auth/LoginPage'
 import { AppShell } from './components/layout/AppShell'
 import { HomePage } from './features/transactions/HomePage'
@@ -54,9 +55,11 @@ function Router() {
 
 function App() {
   return (
-    <AuthProvider>
-      <Router />
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <Router />
+      </AuthProvider>
+    </ThemeProvider>
   )
 }
 

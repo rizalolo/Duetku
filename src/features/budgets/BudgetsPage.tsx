@@ -81,19 +81,19 @@ export function BudgetsPage({ embedded = false }: { embedded?: boolean }) {
                   </div>
                 </div>
 
-                <div className="flex items-baseline justify-between mb-2">
-                  <span className="text-lg font-semibold tabular-nums">{formatRupiah(b.spent)}</span>
-                  <span className="text-sm text-text-muted tabular-nums">dari {formatRupiah(b.limitAmount)}</span>
+                <div className="flex items-baseline justify-between gap-2 mb-2">
+                  <span className="text-lg font-semibold nowrap-nums truncate">{formatRupiah(b.spent)}</span>
+                  <span className="text-sm text-text-muted nowrap-nums truncate shrink-0">dari {formatRupiah(b.limitAmount)}</span>
                 </div>
                 <div className="h-2 rounded-full bg-surface-raised overflow-hidden mb-3">
                   <div className={`h-full rounded-full ${barColor[status]}`} style={{ width: `${Math.min(100, b.percentage)}%` }} />
                 </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className={status === 'over' ? 'text-expense' : status === 'warning' ? 'text-brand' : 'text-text-muted'}>
+                <div className="flex items-center justify-between gap-2 text-xs">
+                  <span className={`truncate ${status === 'over' ? 'text-expense' : status === 'warning' ? 'text-brand' : 'text-text-muted'}`}>
                     {Math.round(b.percentage)}% terpakai ·{' '}
                     {b.remaining >= 0 ? `sisa ${formatRupiah(b.remaining)}` : `lebih ${formatRupiah(-b.remaining)}`}
                   </span>
-                  <span className="text-text-muted tabular-nums">{formatRupiah(b.dailyPace)}/hari</span>
+                  <span className="text-text-muted nowrap-nums shrink-0">{formatRupiah(b.dailyPace)}/hari</span>
                 </div>
                 {status !== 'over' && (
                   <p className={`text-xs mt-2 ${aheadOfPace ? 'text-brand' : 'text-text-muted'}`}>

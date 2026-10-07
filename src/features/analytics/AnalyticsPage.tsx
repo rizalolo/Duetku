@@ -5,6 +5,7 @@ import { useCategories } from '../categories/useCategories'
 import { DonutChart } from '../../components/charts/DonutChart'
 import { MonthlyBars } from '../../components/charts/MonthlyBars'
 import { CategoryBreakdown } from './CategoryBreakdown'
+import { generateMonthlyInsight } from '../../lib/insights'
 import { formatRupiah, formatRupiahCompact, monthKey } from '../../lib/format'
 import { monthLabel, monthShortLabel, shiftMonth } from '../../lib/period'
 import {
@@ -66,6 +67,11 @@ export function AnalyticsPage() {
   const prevExpense = sumByType(prevTx, 'expense')
   const expenseChange = percentChange(expense, prevExpense)
 
+  const insight = useMemo(
+    () => generateMonthlyInsight({ income, expense, split, topExpense: expenseRows, expenseChangePct: expenseChange }),
+    [income, expense, split, expenseRows, expenseChange]
+  )
+
   return (
     <div className="px-5 pt-6 pb-6">
       <div className="flex items-center justify-between mb-5">
@@ -101,9 +107,25 @@ export function AnalyticsPage() {
         <p className="text-text-muted text-sm text-center py-10">Memuat...</p>
       ) : tab === 'summary' ? (
         <div className="flex flex-col gap-4">
+          {insight && (
+            <div className="bg-brand-soft border border-brand/30 rounded-2xl p-5">
+              <h2 className="font-semibold text-brand mb-2">{insight.headline}</h2>
+              {insight.paragraph && <p className="text-sm text-text-muted mb-3">{insight.paragraph}</p>}
+              {insight.bullets.length > 0 && (
+                <ul className="flex flex-col gap-1.5">
+                  {insight.bullets.map((b, i) => (
+                    <li key={i} className="text-sm">
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+
           <div className="bg-surface border border-border rounded-2xl p-5">
             <p className="text-sm text-text-muted mb-1">Arus kas bersih</p>
-            <p className={`text-2xl font-semibold tabular-nums mb-4 ${net >= 0 ? 'text-income' : 'text-expense'}`}>
+            <p className={`text-2xl font-semibold nowrap-nums truncate mb-4 ${net >= 0 ? 'text-income' : 'text-expense'}`}>
               {net >= 0 ? '+' : ''}
               {formatRupiah(net)}
             </p>
@@ -116,7 +138,7 @@ export function AnalyticsPage() {
                 center={
                   <>
                     <span className="text-xs text-text-muted">Masuk</span>
-                    <span className="text-sm font-semibold tabular-nums">{formatRupiahCompact(income)}</span>
+                    <span className="text-sm font-semibold nowrap-nums truncate">{formatRupiahCompact(income)}</span>
                   </>
                 }
               />
@@ -142,7 +164,7 @@ export function AnalyticsPage() {
                   center={
                     <>
                       <span className="text-xs text-text-muted">Kebutuhan</span>
-                      <span className="text-lg font-semibold tabular-nums">
+                      <span className="text-lg font-semibold nowrap-nums truncate">
                         {((split.needs / split.total) * 100).toFixed(1)}%
                       </span>
                     </>
@@ -166,7 +188,7 @@ export function AnalyticsPage() {
         <div className="flex flex-col gap-4">
           <div className="bg-surface border border-border rounded-2xl p-5">
             <p className="text-sm text-text-muted mb-1">Pengeluaran {monthLabel(month)}</p>
-            <p className="text-2xl font-semibold tabular-nums mb-1">{formatRupiah(expense)}</p>
+            <p className="text-2xl font-semibold nowrap-nums truncate mb-1">{formatRupiah(expense)}</p>
             <p className="text-sm text-text-muted">
               {expenseChange === null ? (
                 'Tidak ada data bulan sebelumnya untuk dibandingkan'
@@ -199,12 +221,12 @@ export function AnalyticsPage() {
                     <span className="text-lg">{r.icon}</span>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium truncate">{r.name}</p>
-                      <p className="text-xs text-text-muted tabular-nums">
+                      <p className="text-xs text-text-muted nowrap-nums truncate">
                         {formatRupiahCompact(r.before)} → {formatRupiahCompact(r.now)}
                       </p>
                     </div>
                     <span
-                      className={`text-xs tabular-nums ${
+                      className={`text-xs nowrap-nums shrink-0 ${
                         r.change === null ? 'text-text-muted' : r.change <= 0 ? 'text-income' : 'text-expense'
                       }`}
                     >
@@ -227,7 +249,7 @@ function Legend({ color, label, value, pct }: { color: string; label: string; va
       <span className={`w-2.5 h-2.5 rounded-full shrink-0 ${color}`} />
       <div className="min-w-0">
         <p className="text-text-muted text-xs">{label}</p>
-        <p className="tabular-nums text-sm">
+        <p className="nowrap-nums truncate text-sm">
           {formatRupiahCompact(value)} <span className="text-text-muted text-xs">{pct.toFixed(1)}%</span>
         </p>
       </div>

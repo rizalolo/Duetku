@@ -93,22 +93,26 @@ export function HomePage() {
       <div className="bg-surface border border-border rounded-2xl p-5 mb-6">
         <p className="text-text-muted text-sm mb-1">Arus Kas Bersih</p>
         <p
-          className={`text-2xl font-semibold tabular-nums mb-4 ${
+          className={`text-2xl font-semibold nowrap-nums mb-4 truncate ${
             totalIncome - totalExpense >= 0 ? 'text-income' : 'text-expense'
           }`}
         >
           {formatRupiah(totalIncome - totalExpense)}
         </p>
-        <div className="flex gap-4 text-sm">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-income" />
-            <span className="text-text-muted">Masuk</span>
-            <span className="tabular-nums">{formatRupiah(totalIncome)}</span>
+        <div className="grid grid-cols-2 gap-3 text-sm">
+          <div className="flex items-center gap-2 bg-income-soft rounded-xl px-3 py-2.5 min-w-0">
+            <span className="w-2 h-2 rounded-full bg-income shrink-0" />
+            <div className="min-w-0">
+              <p className="text-text-muted text-xs">Masuk</p>
+              <p className="nowrap-nums truncate font-medium">{formatRupiah(totalIncome)}</p>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-expense" />
-            <span className="text-text-muted">Keluar</span>
-            <span className="tabular-nums">{formatRupiah(totalExpense)}</span>
+          <div className="flex items-center gap-2 bg-expense-soft rounded-xl px-3 py-2.5 min-w-0">
+            <span className="w-2 h-2 rounded-full bg-expense shrink-0" />
+            <div className="min-w-0">
+              <p className="text-text-muted text-xs">Keluar</p>
+              <p className="nowrap-nums truncate font-medium">{formatRupiah(totalExpense)}</p>
+            </div>
           </div>
         </div>
       </div>

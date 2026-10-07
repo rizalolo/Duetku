@@ -15,8 +15,8 @@ export default defineConfig({
         name: 'Keuangan',
         short_name: 'Keuangan',
         description: 'Pencatatan keuangan pribadi',
-        theme_color: '#14161C',
-        background_color: '#14161C',
+        theme_color: '#080B12',
+        background_color: '#080B12',
         display: 'standalone',
         start_url: '/',
         icons: [

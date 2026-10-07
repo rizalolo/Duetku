@@ -25,9 +25,9 @@ export function CategoryBreakdown({ title, rows, emptyText }: { title: string; r
                   <p className="text-sm font-medium truncate">{r.name}</p>
                   <p className="text-xs text-text-muted">{r.count} transaksi</p>
                 </div>
-                <div className="text-right">
-                  <p className="text-sm tabular-nums">{formatRupiah(r.total)}</p>
-                  <p className="text-xs text-text-muted tabular-nums">{r.percentage.toFixed(1)}%</p>
+                <div className="text-right shrink-0 max-w-[40%] min-w-0">
+                  <p className="text-sm nowrap-nums truncate">{formatRupiah(r.total)}</p>
+                  <p className="text-xs text-text-muted nowrap-nums">{r.percentage.toFixed(1)}%</p>
                 </div>
               </div>
               <div className="h-1.5 rounded-full bg-surface-raised overflow-hidden">

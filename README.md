@@ -4,7 +4,7 @@ PWA (bisa diinstall di Android & diakses di browser desktop) untuk mencatat
 transaksi, budgeting, dan analisis keuangan pribadi. Backend: Firebase
 (Auth Google + Firestore).
 
-## Status: Fase 2 + sebagian Fase 3 selesai
+## Status: Fase 2 + sebagian Fase 3 + polish UI selesai
 
 Sudah bisa dipakai:
 - Login dengan akun Google
@@ -75,3 +75,15 @@ selesai. Kirim pesan error persisnya untuk dibantu diperbaiki.
 Semua data disimpan di bawah users/{uid}/... - lihat src/types/index.ts
 untuk skema lengkap tiap koleksi (wallets, categories, transactions, budgets,
 debts).
+
+
+## Update UI/UX terbaru
+- **Dark & Light mode** — bisa diganti di Lainnya, tersimpan per perangkat (localStorage).
+  Palet warna baru: background #080B12 (dark) / #F1F5F9 (light), aksen biru #3B82F6.
+- **Kategori sekarang bisa diedit** — tap baris kategori untuk ubah nama/ikon/kelompok.
+- **~80 pilihan ikon kategori**, dikelompokkan per tema (makanan, transportasi, tagihan, dll).
+- **Ringkasan analisis teks di Ikhtisar** — headline + insight otomatis (porsi kebutuhan/keinginan,
+  kategori terbesar, perubahan vs bulan lalu). Ini rule-based (bukan panggilan AI berbayar), jadi
+  gratis dan instan, tapi insight-nya template sederhana, bukan analisis mendalam.
+- Perbaikan tampilan: nominal besar tidak lagi turun baris/terpotong di layar sempit, chip kategori
+  di form transaksi sekarang wrap 2 baris alih-alih "...".

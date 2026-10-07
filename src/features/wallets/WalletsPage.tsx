@@ -44,7 +44,7 @@ export function WalletsPage() {
 
       <div className="bg-surface border border-border rounded-2xl p-5 mb-6">
         <p className="text-text-muted text-sm mb-1">Total Saldo</p>
-        <p className="text-2xl font-semibold tabular-nums font-[var(--font-display)]">
+        <p className="text-2xl font-semibold nowrap-nums truncate font-[var(--font-display)]">
           {formatRupiah(totalBalance)}
         </p>
       </div>
@@ -70,7 +70,7 @@ export function WalletsPage() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-medium truncate">{w.name}</p>
-                <p className="text-sm tabular-nums text-text-muted">{formatRupiah(w.balance)}</p>
+                <p className="text-sm nowrap-nums truncate text-text-muted">{formatRupiah(w.balance)}</p>
               </div>
               <button onClick={() => openEdit(w)} className="text-text-muted p-2">
                 <Pencil className="w-4 h-4" />

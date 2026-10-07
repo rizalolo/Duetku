@@ -177,51 +177,49 @@ export function TransactionFormSheet({ open, onClose, onSubmit, onDelete, initia
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="text-sm text-text-muted mb-2 block">Tanggal & Jam</label>
-            <input
-              type="datetime-local"
-              value={dateStr}
-              onChange={(e) => setDateStr(e.target.value)}
-              className="w-full bg-surface-raised border border-border rounded-xl px-3 py-3 outline-none focus:border-brand text-sm"
-            />
-          </div>
-          <div>
-            <label className="text-sm text-text-muted mb-2 block">Dompet</label>
-            <select
-              value={walletId}
-              onChange={(e) => setWalletId(e.target.value)}
-              className="w-full bg-surface-raised border border-border rounded-xl px-3 py-3 outline-none focus:border-brand text-sm"
-            >
-              {wallets.length === 0 && <option value="">Belum ada dompet</option>}
-              {wallets.map((w) => (
-                <option key={w.id} value={w.id}>
-                  {w.icon} {w.name}
-                </option>
-              ))}
-            </select>
-          </div>
+        <div>
+          <label className="text-sm text-text-muted mb-2 block">Tanggal & Jam</label>
+          <input
+            type="datetime-local"
+            value={dateStr}
+            onChange={(e) => setDateStr(e.target.value)}
+            className="w-full bg-surface-raised border border-border rounded-xl px-3 py-3 outline-none focus:border-brand text-sm"
+          />
+        </div>
+        <div>
+          <label className="text-sm text-text-muted mb-2 block">Dompet</label>
+          <select
+            value={walletId}
+            onChange={(e) => setWalletId(e.target.value)}
+            className="w-full bg-surface-raised border border-border rounded-xl px-3 py-3 outline-none focus:border-brand text-sm"
+          >
+            {wallets.length === 0 && <option value="">Belum ada dompet</option>}
+            {wallets.map((w) => (
+              <option key={w.id} value={w.id}>
+                {w.icon} {w.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div>
           <label className="text-sm text-text-muted mb-2 block">Kategori</label>
-          <div className="flex gap-2 flex-wrap">
+          <div className="grid grid-cols-4 gap-2">
             {filteredCategories.map((c) => (
               <button
                 type="button"
                 key={c.id}
                 onClick={() => setCategoryId(c.id)}
-                className={`flex flex-col items-center gap-1 w-16 py-2 rounded-xl border text-xs ${
+                className={`flex flex-col items-center gap-1 py-2 px-1 rounded-xl border text-[11px] leading-tight ${
                   categoryId === c.id ? 'border-brand bg-brand-soft' : 'border-border bg-surface-raised'
                 }`}
               >
                 <span className="text-lg">{c.icon}</span>
-                <span className="truncate w-full text-center">{c.name}</span>
+                <span className="line-clamp-2 text-center break-words">{c.name}</span>
               </button>
             ))}
             {filteredCategories.length === 0 && (
-              <p className="text-sm text-text-muted">Belum ada kategori untuk tipe ini.</p>
+              <p className="text-sm text-text-muted col-span-4">Belum ada kategori untuk tipe ini.</p>
             )}
           </div>
         </div>
